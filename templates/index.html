@@ -3,7 +3,6 @@
         The content block is where we put the specific content for this page.
         This is what the user will see when they visit the home page of the app.
 -->
-
 {% extends "base.html" %}
 
 {% block title %}Hunger Tracker{% endblock %}
@@ -11,12 +10,68 @@
 {% block content %}
 <h1>🍽️ Hunger Tracker</h1>
 
-<div class="bar">
-    <div id="fill" class="fill"></div>
+<p>Welcome, {{ user.username }}!</p>
+
+<!-- Form to enter new hunger level -->
+<form id="hungerForm" method="post" action="{{ url_for('add_hunger') }}">
+    <label for="level">Hunger Level (0-10):</label>
+    <input type="number" id="level" name="level" min="0" max="10" required>
+    <button type="submit">Add</button>
+</form>
+
+<hr>
+
+<!-- Dynamic Hunger Bar -->
+<div class="bar" style="width: 100%; height: 30px; background-color: #ddd; border-radius: 5px; overflow: hidden; margin: 10px 0;">
+    <div id="fill" class="fill" style="height: 100%; width: 0%; background-color: #ff6347; transition: width 0.5s;"></div>
 </div>
+<h2 id="hungerText">Current Hunger: --</h2>
 
-<h2 id="hungerText">Loading...</h2>
-<button onclick="eat()">🍔 Eat</button>
+<hr>
 
-<canvas id="chart" width="400" height="200"></canvas>
+<!-- Display Hunger Chart if exists -->
+{% if chart_path %}
+<h2>Hunger Chart</h2>
+<img src="{{ chart_path }}" alt="Hunger Chart">
+{% endif %}
+
+<hr>
+
+<!-- Display Hunger History -->
+<h2>History</h2>
+<ul>
+{% for entry in entries %}
+    <li>{{ entry.timestamp.strftime('%Y-%m-%d %H:%M') }} → {{ entry.level }}</li>
+{% else %}
+    <li>No entries yet</li>
+{% endfor %}
+</ul>
+
+<hr>
+
+<a href="{{ url_for('logout') }}">Logout</a>
+
+<!-- JavaScript to update bar dynamically -->
+<script>
+function updateBar(level) {
+    const fill = document.getElementById('fill');
+    const text = document.getElementById('hungerText');
+    const percent = Math.min(Math.max(level, 0), 10) * 10; // convert 0-10 scale to %
+    fill.style.width = percent + '%';
+    text.textContent = 'Current Hunger: ' + level;
+}
+
+<!-- // Update bar with last entry on page load
+{% if entries %}
+    updateBar({{ entries[-1].level | int }});
+{% endif %} -->
+
+// Update bar dynamically when form is submitted
+document.getElementById('hungerForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const levelInput = document.getElementById('level');
+    updateBar(levelInput.value);
+});
+</script>
+
 {% endblock %}
