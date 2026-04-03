@@ -7,6 +7,9 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from sqlalchemy import text
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Flask App Configuration
 
@@ -14,7 +17,7 @@ app = Flask(__name__)
 app.secret_key = 'supersecretkey'
 
 # XAMPP MySQL configuration using root with no password
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:@localhost/hunger_app'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
