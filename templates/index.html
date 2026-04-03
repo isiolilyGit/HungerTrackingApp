@@ -1,0 +1,22 @@
+<!--- Index template for the Hunger App.
+        This template extends the base.html template, which contains shared content like the header and footer.
+        The content block is where we put the specific content for this page.
+        This is what the user will see when they visit the home page of the app.
+-->
+
+{% extends "base.html" %}
+
+{% block title %}Hunger Tracker{% endblock %}
+
+{% block content %}
+<h1>🍽️ Hunger Tracker</h1>
+
+<div class="bar">
+    <div id="fill" class="fill"></div>
+</div>
+
+<h2 id="hungerText">Loading...</h2>
+<button onclick="eat()">🍔 Eat</button>
+
+<canvas id="chart" width="400" height="200"></canvas>
+{% endblock %}

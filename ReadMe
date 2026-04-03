@@ -1,0 +1,9 @@
+The Hunger Level Tracker is a lightweight web application built with Flask that simulates and manages
+a user’s hunger level as a dynamic, time-dependent state. 
+The system models hunger on a scale from 0 to 100,
+where it gradually increases based on elapsed time and can be reduced through user actions such as eating. 
+By combining simple backend logic with an interactive interface, 
+the app demonstrates key software engineering concepts including state management,
+time-based computation, and client-server interaction, 
+making it a practical foundation for more advanced applications such as health monitoring systems, 
+behavioral simulations, or data-driven predictive models.

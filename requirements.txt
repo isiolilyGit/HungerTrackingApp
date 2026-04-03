@@ -1,0 +1,12 @@
+flask
+flask_sqlalchemy 
+flask_login
+mysqlclient
+flask_wtf
+wtforms
+email_validator
+flask_bcrypt
+flask_migrate
+pymysql
+gunicorn
+werkzeug
