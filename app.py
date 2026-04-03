@@ -1,12 +1,16 @@
 from flask import Flask, render_template, request, redirect, jsonify
-from HungerTrackingApp.models import db, User, HungerLog
+from models import db, User, HungerLog
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 import time
 import os
+from sqlalchemy import text
 
 # --- App Setup ---
 app = Flask(__name__)
+
+from dotenv import load_dotenv
+load_dotenv()
 
 # --- Secure Config (Railway-ready) ---
 db_url = os.getenv("DATABASE_URL")
@@ -19,6 +23,15 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY", "fallback_secret_key")
 
 db.init_app(app)
+
+# Test connection
+# Test DB connection
+try:
+    with app.app_context():
+        result = db.session.execute(text('SELECT 1'))
+        print("DB connection OK:", result.scalar())
+except Exception as e:
+    print("DB connection failed:", e)
 
 # --- Login Manager ---
 login_manager = LoginManager()

@@ -10,3 +10,5 @@ flask_migrate
 pymysql
 gunicorn
 werkzeug
+python-dotenv
+cryptography
